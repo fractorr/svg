@@ -2,7 +2,7 @@
     "name": "fractorr/svg",
     "description": "Convert SVG Images",
     "type": "craft-plugin",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "keywords": [
         "craft",
         "cms",
