@@ -1,0 +1,50 @@
+{
+    "name": "fractorr/svg",
+    "description": "Convert SVG Images",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "svg"
+    ],
+    "support": {
+        "docs": "https://github.com/fractorr/svg/blob/master/README.md",
+        "issues": "https://github.com/fractorr/svg/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Trevor Orr",
+            "homepage": "http://www.fractorr.com"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "~3.0.0-beta.1"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+          "fractorr\\svg\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Svg",
+        "handle": "svg",
+        "schemaVersion": "1.0.0",
+        "hasCpSettings": true,
+        "hasCpSection": false,
+        "changelogUrl": "https://raw.githubusercontent.com/fractorr/svg/master/CHANGELOG.md",
+        "components": {
+            "svgService": "fractorr\\svg\\services\\SvgService"
+        },
+        "class": "fractorr\\svg\\Svg"
+    }
+}
