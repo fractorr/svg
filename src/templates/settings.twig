@@ -17,9 +17,41 @@
 {% do view.registerAssetBundle("fractorr\\svg\\assetbundles\\svg\\SvgAsset") %}
 
 {{ forms.textField({
-    label: 'Some Field',
-    instructions: 'Enter some setting here.',
-    id: 'someAttribute',
-    name: 'someAttribute',
-    value: settings['someAttribute']})
+    label: 'PDF Path',
+    instructions: 'Full path to save generated PDF to',
+    id: 'pathPdf',
+    name: 'pathPdf',
+    value: settings['pathPdf']})
+}}
+
+{{ forms.textField({
+    label: 'Full Path',
+    instructions: 'Full path to save generated Full PNG',
+    id: 'pathFull',
+    name: 'pathFull',
+    value: settings['pathFull']})
+}}
+
+{{ forms.textField({
+    label: 'Wall Path',
+    instructions: 'Full path to save generated Wall PNG',
+    id: 'pathWall',
+    name: 'pathWall',
+    value: settings['pathWall']})
+}}
+
+{{ forms.textField({
+    label: 'PDP Path',
+    instructions: 'Full path to save generated PDP PNG',
+    id: 'pathPdp',
+    name: 'pathPdp',
+    value: settings['pathPdp']})
+}}
+
+{{ forms.textField({
+    label: 'Cart Path',
+    instructions: 'Full path to save generated Cart PNG',
+    id: 'pathCart',
+    name: 'pathCart',
+    value: settings['pathCart']})
 }}

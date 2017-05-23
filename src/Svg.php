@@ -19,6 +19,11 @@ use craft\base\Plugin;
 use craft\services\Plugins;
 use craft\events\PluginEvent;
 
+use craft\base\Element;
+use craft\services\Elements;
+use craft\events\ElementEvent;
+
+
 use yii\base\Event;
 
 /**
@@ -76,6 +81,97 @@ class Svg extends Plugin
             function (PluginEvent $event) {
                 if ($event->plugin === $this) {
                     // We were just installed
+                }
+            }
+        );
+
+		Event::on(
+			Elements::class, 
+			Elements::EVENT_AFTER_SAVE_ELEMENT, 
+            function (ElementEvent $event) {
+            	/*
+            	echo "<pre>";
+            	echo "<textarea>";
+            	echo $event->element->productSvg;
+            	echo "</textarea>";
+            	//print_r($event);
+            	echo "</pre>";
+            	die();
+                */
+                
+                if (!empty($event->element->productSvg)) {
+                	$settings = new Settings();
+                	/*
+                	echo "<pre>";
+                	print_r($this->getSettings()->pathFull);
+                	echo "</pre>";
+                	die();
+                	*/
+                	$res = 150;
+                	
+                	// Generate PDF
+	                $im = new \Imagick();
+	                $im->setResolution($res, $res);
+	                $im->readImageBlob($event->element->productSvg);
+	                $im->trimImage(20000);
+	                $im->setImageFormat("pdf");
+	                $im->setPage($im->getImageWidth(), $im->getImageHeight(), 0, 0);
+	                $im->setImageUnits(\Imagick::RESOLUTION_PIXELSPERINCH);
+	                $raw_data = $im->getImageBlob();
+	                $im->writeImage($this->getSettings()->pathPdf . '/' .  $event->element->slug .  '.pdf');
+					$im->clear();
+					$im->destroy();
+                	
+                	// Generate Full Size
+	                $im = new \Imagick();
+	                $im->setResolution($res, $res);
+	                $im->readImageBlob($event->element->productSvg);
+	                $im->setImageFormat("png");
+	                $im->setImageUnits(\Imagick::RESOLUTION_PIXELSPERINCH);
+	                $im->trimImage(20000);
+	                $raw_data = $im->getImageBlob();
+	                $im->writeImage($this->getSettings()->pathFull . '/' .  $event->element->slug .  '.png');
+					$im->clear();
+					$im->destroy();
+
+                	// Generate PDP
+	                $im = new \Imagick();
+	                $im->setResolution($res, $res);
+	                $im->readImageBlob($event->element->productSvg);
+	                $im->setImageFormat("png");
+	                $im->setImageUnits(\Imagick::RESOLUTION_PIXELSPERINCH);
+	                $im->trimImage(20000);
+	                $im->resizeImage(200, 0, \Imagick::FILTER_LANCZOS, 1);
+	                $raw_data = $im->getImageBlob();
+	                $im->writeImage($this->getSettings()->pathWall . '/' .  $event->element->slug .  '.png');
+					$im->clear();
+					$im->destroy();
+
+                	// Generate PDP
+	                $im = new \Imagick();
+	                $im->setResolution($res, $res);
+	                $im->readImageBlob($event->element->productSvg);
+	                $im->setImageFormat("png");
+	                $im->setImageUnits(\Imagick::RESOLUTION_PIXELSPERINCH);
+	                $im->trimImage(20000);
+	                $im->resizeImage(400, 0, \Imagick::FILTER_LANCZOS, 1);
+	                $raw_data = $im->getImageBlob();
+	                $im->writeImage($this->getSettings()->pathPdp . '/' .  $event->element->slug .  '.png');
+					$im->clear();
+					$im->destroy();
+
+                	// Generate PDP
+	                $im = new \Imagick();
+	                $im->setResolution($res, $res);
+	                $im->readImageBlob($event->element->productSvg);
+	                $im->setImageFormat("png");
+	                $im->setImageUnits(\Imagick::RESOLUTION_PIXELSPERINCH);
+	                $im->trimImage(20000);
+	                $im->resizeImage(100, 0, \Imagick::FILTER_LANCZOS, 1);
+	                $raw_data = $im->getImageBlob();
+	                $im->writeImage($this->getSettings()->pathCart . '/' .  $event->element->slug .  '.png');
+					$im->clear();
+					$im->destroy();
                 }
             }
         );

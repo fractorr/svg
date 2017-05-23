@@ -25,6 +25,10 @@
 return [
 
     // This controls blah blah blah
-    "someAttribute" => true,
-
+    "pathPdf" => true,
+    "pathFull" => true,
+    "pathWall" => true,
+    "pathPdp" => true,
+    "pathCart" => true,
+    
 ];
