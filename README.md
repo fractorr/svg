@@ -18,19 +18,19 @@ Svg works on Craft 3.x.
 
 ## Svg Overview
 
--Insert text here-
+Converts SVG Data stored in a section field into various file formats.
 
 ## Configuring Svg
 
--Insert text here-
+Configure the paths, format and sizes and then when an entry is saved and has data in the specified field it will automatically create the images you specified in the plugin settings.
 
 ## Using Svg
 
--Insert text here-
+You don't need to do anything.
 
 ## Svg Roadmap
 
-Some things to do, and ideas for potential features:
+Nothing yet, I am sure I will come up with stuff once I get more into using it.
 
 * Release it
 
