@@ -15,6 +15,10 @@ use fractorr\svg\Svg;
 use Craft;
 use craft\base\Model;
 
+use craft\base\Section;
+use craft\services\Sections;
+use craft\events\SectionEvent;
+
 /**
  * Settings Model
  *
@@ -37,9 +41,10 @@ class Settings extends Model
      *
      * @var string
      */
+    
     public $pathFiles = '';
     public $entryTypeHandle = '';
-
+	
     // Public Methods
     // =========================================================================
 
@@ -55,31 +60,23 @@ class Settings extends Model
      */
     public function rules()
     {
-        return [
-        	/*
-            ['pathPdf', 'string'],
-            ['pathPdf', 'default', 'value' => 'Full Path'],
-
-            ['pathFull', 'string'],
-            ['pathFull', 'default', 'value' => 'Full Path'],
-
-            ['pathWall', 'string'],
-            ['pathWall', 'default', 'value' => 'Full Path'],
-
-            ['pathPdp', 'string'],
-            ['pathPdp', 'default', 'value' => 'Full Path'],
-
-            ['pathCart', 'string'],
-            ['pathCart', 'default', 'value' => 'Full Path'],
-			*/
-
+       return [
             ['entryTypeHandle', 'string'],
             ['entryTypeHandle', 'default', 'value' => 'Name'],
-			
-			/*
-            ['pathFiles', 'string'],
-            ['pathFiles', 'default', 'value' => ''],
-            */
         ];
     }
+
+	
+    public function getSections()
+    {
+    	$ret = array();
+    	$secs = Craft::$app->sections->getAllSections();
+    	
+		foreach($secs as $sec) {
+			array_push($ret, ['label' => $sec['name'], 'value' => $sec['handle']]);
+		}
+		
+		return $ret;
+    }
+    
 }

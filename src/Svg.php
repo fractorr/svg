@@ -23,6 +23,10 @@ use craft\base\Element;
 use craft\services\Elements;
 use craft\events\ElementEvent;
 
+//use craft\base\Section;
+//use craft\services\Sections;
+//use craft\events\SectionEvent;
+
 
 use yii\base\Event;
 
@@ -89,6 +93,13 @@ class Svg extends Plugin
 			Elements::class, 
 			Elements::EVENT_AFTER_SAVE_ELEMENT, 
             function (ElementEvent $event) {
+            	/* 
+            	echo "<pre>";
+            	print_r(Craft::$app->sections->getAllSections());
+            	echo "</pre>";
+            	die();
+            	*/
+            	
             	$entryTypeParts = explode("/", $event->element["uri"]);
             	$entryType = $entryTypeParts[0];
             	

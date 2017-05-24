@@ -16,77 +16,79 @@
 
 {% do view.registerAssetBundle("fractorr\\svg\\assetbundles\\svg\\SvgAsset") %}
 
-{{ forms.textField({
-    label: 'Entry Type Handle',
-    instructions: 'Handle of the entry type to process (EG: product)',
-    id: 'entryTypeHandle',
-    name: 'entryTypeHandle',
-    value: settings['entryTypeHandle']})
+{{ forms.selectField({
+	    label: 'Entry Type Handle',
+	    instructions: 'Handle of the entry type to process (EG: product)',
+	    id: 'entryTypeHandle',
+	    name: 'entryTypeHandle',
+	    value: settings['entryTypeHandle'],
+	    options: settings.getSections,
+    })
 }}
 
 {{ forms.editableTableField({
-    label: 'File Paths',
-    instructions: 'File conversion details',
-    id: 'pathFiles',
-    name: 'pathFiles',
-    rows: settings['pathFiles'],
-    cols: [
-    	{
-    		heading: "Title",
-    		info: "Friendly Name",
-    		type: "singleline",
-    	},
-    	
-    	{
-    		heading: "Path",
-    		info: "Full Path",
-    		type: "singleline",
-    	},
-    	
-    	{
-    		heading: "Resolution",
-    		info: "Output image resoluion",
-    		type: "select",
-    		options: [
-    			{label: '200', value: '200'},
-    			{label: '150', value: '150'},
-    			{label: '144', value: '144'},
-    			{label: '108', value: '108'},
-    			{label:  '72', value:  '72'}, 
-    			{label: '300', value: '300'},
-    		]
-    	},
-    	
-    	{
-    		heading: "Format",
-    		info: "Output Format (pdf, png, jpg, etc)",
-    		type: "select",
-    		options: [
-    			{label: 'PNG', value: 'png'},
-    			{label: 'PDF', value: 'pdf'}, 
-    			{label: 'JPG', value: 'jpg'},
-    			{label: 'GIF', value: 'gif'},
-    		]
-    	},
-    	
-    	{
-    		heading: "Source Field",
-    		info: "Field of source",
-    		type: "singleline",
-    	},
-    	
-    	{
-    		heading: "Width",
-    		info: "Width to resize to (0 to resize by Height)<br><br>Set Width and Height to 0 to convert with no resize",
-    		type: "singleline",
-    	},
-    	
-    	{
-    		heading: "Height",
-    		info: "Width to resize to (0 to resize by Width)<br><br>Set Width and Height to 0 to convert with no resize",
-    		type: "singleline",
-    	},
-    	
-    ]
+	    label: 'File Paths',
+	    instructions: 'File conversion details',
+	    id: 'pathFiles',
+	    name: 'pathFiles',
+	    rows: settings['pathFiles'],
+	    cols: [
+	    	{
+	    		heading: "Title",
+	    		info: "Friendly Name",
+	    		type: "singleline",
+	    	},
+	    	
+	    	{
+	    		heading: "Path",
+	    		info: "Full Path",
+	    		type: "singleline",
+	    	},
+	    	
+	    	{
+	    		heading: "Resolution",
+	    		info: "Output image resoluion",
+	    		type: "select",
+	    		options: [
+	    			{label: '200', value: '200'},
+	    			{label: '150', value: '150'},
+	    			{label: '144', value: '144'},
+	    			{label: '108', value: '108'},
+	    			{label:  '72', value:  '72'}, 
+	    			{label: '300', value: '300'},
+	    		]
+	    	},
+	    	
+	    	{
+	    		heading: "Format",
+	    		info: "Output Format (pdf, png, jpg, etc)",
+	    		type: "select",
+	    		options: [
+	    			{label: 'PNG', value: 'png'},
+	    			{label: 'PDF', value: 'pdf'}, 
+	    			{label: 'JPG', value: 'jpg'},
+	    			{label: 'GIF', value: 'gif'},
+	    		]
+	    	},
+	    	
+	    	{
+	    		heading: "Source Field",
+	    		info: "Field of source",
+	    		type: "singleline",
+	    	},
+	    	
+	    	{
+	    		heading: "Width",
+	    		info: "Width to resize to (0 to resize by Height)<br><br>Set Width and Height to 0 to convert with no resize",
+	    		type: "singleline",
+	    	},
+	    	
+	    	{
+	    		heading: "Height",
+	    		info: "Width to resize to (0 to resize by Width)<br><br>Set Width and Height to 0 to convert with no resize",
+	    		type: "singleline",
+	    	},
+	    	
+	    ]
     })
 }}
