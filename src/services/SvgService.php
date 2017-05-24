@@ -46,23 +46,11 @@ class SvgService extends Component
     public function exampleService()
     {
         $result = 'something';
-        // Check our Plugin's settings for `pathPdf`
-        if (Svg::$plugin->getSettings()->pathPdf) {
-        }
-
-        if (Svg::$plugin->getSettings()->pathFull) {
-        }
-
-        if (Svg::$plugin->getSettings()->pathWall) {
-        }
-
-        if (Svg::$plugin->getSettings()->pathPdp) {
-        }
-
-        if (Svg::$plugin->getSettings()->pathCart) {
-        }
 
         if (Svg::$plugin->getSettings()->pathFiles) {
+        }
+
+        if (Svg::$plugin->getSettings()->entryTypeHandle) {
         }
 
         return $result;

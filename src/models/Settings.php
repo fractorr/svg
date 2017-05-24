@@ -37,13 +37,8 @@ class Settings extends Model
      *
      * @var string
      */
-    public $pathPdf = 'Full Path';
-    public $pathFull = 'Full Path';
-    public $pathWall = 'Full Path';
-    public $pathPdp = 'Full Path';
-    public $pathCart = 'Full Path';
-
     public $pathFiles = '';
+    public $entryTypeHandle = '';
 
     // Public Methods
     // =========================================================================
@@ -61,6 +56,7 @@ class Settings extends Model
     public function rules()
     {
         return [
+        	/*
             ['pathPdf', 'string'],
             ['pathPdf', 'default', 'value' => 'Full Path'],
 
@@ -75,7 +71,11 @@ class Settings extends Model
 
             ['pathCart', 'string'],
             ['pathCart', 'default', 'value' => 'Full Path'],
+			*/
 
+            ['entryTypeHandle', 'string'],
+            ['entryTypeHandle', 'default', 'value' => 'Name'],
+			
 			/*
             ['pathFiles', 'string'],
             ['pathFiles', 'default', 'value' => ''],

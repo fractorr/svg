@@ -23,13 +23,6 @@
  */
 
 return [
-
-    // This controls blah blah blah
-    "pathPdf" => true,
-    "pathFull" => true,
-    "pathWall" => true,
-    "pathPdp" => true,
-    "pathCart" => true,
-    
     "pathFiles" => true,
+    "entryTypeHandle" => true,
 ];

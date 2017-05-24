@@ -89,47 +89,53 @@ class Svg extends Plugin
 			Elements::class, 
 			Elements::EVENT_AFTER_SAVE_ELEMENT, 
             function (ElementEvent $event) {
-                define("PATH_LABEL", 	0);
-                define("PATH_PATH", 	1);
-                define("PATH_RES", 		2);
-                define("PATH_FORMAT", 	3);
-                define("PATH_FIELD", 	4);
-                define("PATH_WIDTH", 	5);
-                define("PATH_HEIGHT", 	6);
-                
-                if (!empty($event->element->productSvg)) 
+            	$entryTypeParts = explode("/", $event->element["uri"]);
+            	$entryType = $entryTypeParts[0];
+            	
+                if ($entryType == $this->getSettings()->entryTypeHandle)
                 {
+	                define("PATH_LABEL", 	0);
+	                define("PATH_PATH", 	1);
+	                define("PATH_RES", 		2);
+	                define("PATH_FORMAT", 	3);
+	                define("PATH_FIELD", 	4);
+	                define("PATH_WIDTH", 	5);
+	                define("PATH_HEIGHT", 	6);
+	                
                 	$pathFiles = $this->getSettings()->pathFiles;
                 	foreach ($pathFiles as $path)
 					{
-		                $im = new \Imagick();
-						
-		                $im->setResolution($path[PATH_RES], $path[PATH_RES]);
-		                $im->readImageBlob($event->element[$path[PATH_FIELD]]);
-		                $im->trimImage(20000);
-		                
-		                if ($path[PATH_WIDTH] != 0 || $path[PATH_HEIGHT] != 0) 
-		                {
-							$im->resizeImage($path[PATH_WIDTH], $path[PATH_HEIGHT], \Imagick::FILTER_LANCZOS, 1);
-		                }
-		                
-		                $im->setImageFormat($path[PATH_FORMAT]);
-		                if ($path[PATH_FORMAT] == "pdf") 
-		                {
-			                $im->setPage($im->getImageWidth(), $im->getImageHeight(), 0, 0);
-		                }
-		                
-		                $im->setImageUnits(\Imagick::RESOLUTION_PIXELSPERINCH);
-		                $raw_data = $im->getImageBlob();
-		                
-		                if (!file_exists($path[PATH_PATH])) 
-		                {
-							mkdir($path[PATH_PATH], 0777, true);
-						}
+						if ($event->element[$path[PATH_FIELD]] != "")
+						{
+			                $im = new \Imagick();
+							
+			                $im->setResolution($path[PATH_RES], $path[PATH_RES]);
+			                $im->readImageBlob($event->element[$path[PATH_FIELD]]);
+			                $im->trimImage(20000);
+			                
+			                if ($path[PATH_WIDTH] != 0 || $path[PATH_HEIGHT] != 0) 
+			                {
+								$im->resizeImage($path[PATH_WIDTH], $path[PATH_HEIGHT], \Imagick::FILTER_LANCZOS, 1);
+			                }
+			                
+			                $im->setImageFormat($path[PATH_FORMAT]);
+			                if ($path[PATH_FORMAT] == "pdf") 
+			                {
+				                $im->setPage($im->getImageWidth(), $im->getImageHeight(), 0, 0);
+			                }
+			                
+			                $im->setImageUnits(\Imagick::RESOLUTION_PIXELSPERINCH);
+			                $raw_data = $im->getImageBlob();
+			                
+			                if (!file_exists($path[PATH_PATH])) 
+			                {
+								mkdir($path[PATH_PATH], 0777, true);
+							}
 
-		                $im->writeImage($path[PATH_PATH] . '/' .  $event->element->slug .  '.' . $path[PATH_FORMAT]);
-						$im->clear();
-						$im->destroy();
+			                $im->writeImage($path[PATH_PATH] . '/' .  $event->element->slug .  '.' . $path[PATH_FORMAT]);
+							$im->clear();
+							$im->destroy();
+						}
                 	}
 				}
             }

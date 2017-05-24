@@ -16,6 +16,14 @@
 
 {% do view.registerAssetBundle("fractorr\\svg\\assetbundles\\svg\\SvgAsset") %}
 
+{{ forms.textField({
+    label: 'Entry Type Handle',
+    instructions: 'Handle of the entry type to process (EG: product)',
+    id: 'entryTypeHandle',
+    name: 'entryTypeHandle',
+    value: settings['entryTypeHandle']})
+}}
+
 {{ forms.editableTableField({
     label: 'File Paths',
     instructions: 'File conversion details',
