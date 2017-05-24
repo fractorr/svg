@@ -16,42 +16,69 @@
 
 {% do view.registerAssetBundle("fractorr\\svg\\assetbundles\\svg\\SvgAsset") %}
 
-{{ forms.textField({
-    label: 'PDF Path',
-    instructions: 'Full path to save generated PDF to',
-    id: 'pathPdf',
-    name: 'pathPdf',
-    value: settings['pathPdf']})
-}}
-
-{{ forms.textField({
-    label: 'Full Path',
-    instructions: 'Full path to save generated Full PNG',
-    id: 'pathFull',
-    name: 'pathFull',
-    value: settings['pathFull']})
-}}
-
-{{ forms.textField({
-    label: 'Wall Path',
-    instructions: 'Full path to save generated Wall PNG',
-    id: 'pathWall',
-    name: 'pathWall',
-    value: settings['pathWall']})
-}}
-
-{{ forms.textField({
-    label: 'PDP Path',
-    instructions: 'Full path to save generated PDP PNG',
-    id: 'pathPdp',
-    name: 'pathPdp',
-    value: settings['pathPdp']})
-}}
-
-{{ forms.textField({
-    label: 'Cart Path',
-    instructions: 'Full path to save generated Cart PNG',
-    id: 'pathCart',
-    name: 'pathCart',
-    value: settings['pathCart']})
+{{ forms.editableTableField({
+    label: 'File Paths',
+    instructions: 'File conversion details',
+    id: 'pathFiles',
+    name: 'pathFiles',
+    rows: settings['pathFiles'],
+    cols: [
+    	{
+    		heading: "Title",
+    		info: "Friendly Name",
+    		type: "singleline",
+    	},
+    	
+    	{
+    		heading: "Path",
+    		info: "Full Path",
+    		type: "singleline",
+    	},
+    	
+    	{
+    		heading: "Resolution",
+    		info: "Output image resoluion",
+    		type: "select",
+    		options: [
+    			{label: '200', value: '200'},
+    			{label: '150', value: '150'},
+    			{label: '144', value: '144'},
+    			{label: '108', value: '108'},
+    			{label:  '72', value:  '72'}, 
+    			{label: '300', value: '300'},
+    		]
+    	},
+    	
+    	{
+    		heading: "Format",
+    		info: "Output Format (pdf, png, jpg, etc)",
+    		type: "select",
+    		options: [
+    			{label: 'PNG', value: 'png'},
+    			{label: 'PDF', value: 'pdf'}, 
+    			{label: 'JPG', value: 'jpg'},
+    			{label: 'GIF', value: 'gif'},
+    		]
+    	},
+    	
+    	{
+    		heading: "Source Field",
+    		info: "Field of source",
+    		type: "singleline",
+    	},
+    	
+    	{
+    		heading: "Width",
+    		info: "Width to resize to (0 to resize by Height)<br><br>Set Width and Height to 0 to convert with no resize",
+    		type: "singleline",
+    	},
+    	
+    	{
+    		heading: "Height",
+    		info: "Width to resize to (0 to resize by Width)<br><br>Set Width and Height to 0 to convert with no resize",
+    		type: "singleline",
+    	},
+    	
+    ]
+    })
 }}

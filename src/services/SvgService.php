@@ -62,6 +62,9 @@ class SvgService extends Component
         if (Svg::$plugin->getSettings()->pathCart) {
         }
 
+        if (Svg::$plugin->getSettings()->pathFiles) {
+        }
+
         return $result;
     }
 }

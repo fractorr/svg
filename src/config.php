@@ -31,4 +31,5 @@ return [
     "pathPdp" => true,
     "pathCart" => true,
     
+    "pathFiles" => true,
 ];

@@ -43,6 +43,8 @@ class Settings extends Model
     public $pathPdp = 'Full Path';
     public $pathCart = 'Full Path';
 
+    public $pathFiles = '';
+
     // Public Methods
     // =========================================================================
 
@@ -73,6 +75,11 @@ class Settings extends Model
 
             ['pathCart', 'string'],
             ['pathCart', 'default', 'value' => 'Full Path'],
+
+			/*
+            ['pathFiles', 'string'],
+            ['pathFiles', 'default', 'value' => ''],
+            */
         ];
     }
 }

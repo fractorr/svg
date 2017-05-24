@@ -89,90 +89,49 @@ class Svg extends Plugin
 			Elements::class, 
 			Elements::EVENT_AFTER_SAVE_ELEMENT, 
             function (ElementEvent $event) {
-            	/*
-            	echo "<pre>";
-            	echo "<textarea>";
-            	echo $event->element->productSvg;
-            	echo "</textarea>";
-            	//print_r($event);
-            	echo "</pre>";
-            	die();
-                */
+                define("PATH_LABEL", 	0);
+                define("PATH_PATH", 	1);
+                define("PATH_RES", 		2);
+                define("PATH_FORMAT", 	3);
+                define("PATH_FIELD", 	4);
+                define("PATH_WIDTH", 	5);
+                define("PATH_HEIGHT", 	6);
                 
-                if (!empty($event->element->productSvg)) {
-                	$settings = new Settings();
-                	/*
-                	echo "<pre>";
-                	print_r($this->getSettings()->pathFull);
-                	echo "</pre>";
-                	die();
-                	*/
-                	$res = 150;
-                	
-                	// Generate PDF
-	                $im = new \Imagick();
-	                $im->setResolution($res, $res);
-	                $im->readImageBlob($event->element->productSvg);
-	                $im->trimImage(20000);
-	                $im->setImageFormat("pdf");
-	                $im->setPage($im->getImageWidth(), $im->getImageHeight(), 0, 0);
-	                $im->setImageUnits(\Imagick::RESOLUTION_PIXELSPERINCH);
-	                $raw_data = $im->getImageBlob();
-	                $im->writeImage($this->getSettings()->pathPdf . '/' .  $event->element->slug .  '.pdf');
-					$im->clear();
-					$im->destroy();
-                	
-                	// Generate Full Size
-	                $im = new \Imagick();
-	                $im->setResolution($res, $res);
-	                $im->readImageBlob($event->element->productSvg);
-	                $im->setImageFormat("png");
-	                $im->setImageUnits(\Imagick::RESOLUTION_PIXELSPERINCH);
-	                $im->trimImage(20000);
-	                $raw_data = $im->getImageBlob();
-	                $im->writeImage($this->getSettings()->pathFull . '/' .  $event->element->slug .  '.png');
-					$im->clear();
-					$im->destroy();
+                if (!empty($event->element->productSvg)) 
+                {
+                	$pathFiles = $this->getSettings()->pathFiles;
+                	foreach ($pathFiles as $path)
+					{
+		                $im = new \Imagick();
+						
+		                $im->setResolution($path[PATH_RES], $path[PATH_RES]);
+		                $im->readImageBlob($event->element[$path[PATH_FIELD]]);
+		                $im->trimImage(20000);
+		                
+		                if ($path[PATH_WIDTH] != 0 || $path[PATH_HEIGHT] != 0) 
+		                {
+							$im->resizeImage($path[PATH_WIDTH], $path[PATH_HEIGHT], \Imagick::FILTER_LANCZOS, 1);
+		                }
+		                
+		                $im->setImageFormat($path[PATH_FORMAT]);
+		                if ($path[PATH_FORMAT] == "pdf") 
+		                {
+			                $im->setPage($im->getImageWidth(), $im->getImageHeight(), 0, 0);
+		                }
+		                
+		                $im->setImageUnits(\Imagick::RESOLUTION_PIXELSPERINCH);
+		                $raw_data = $im->getImageBlob();
+		                
+		                if (!file_exists($path[PATH_PATH])) 
+		                {
+							mkdir($path[PATH_PATH], 0777, true);
+						}
 
-                	// Generate PDP
-	                $im = new \Imagick();
-	                $im->setResolution($res, $res);
-	                $im->readImageBlob($event->element->productSvg);
-	                $im->setImageFormat("png");
-	                $im->setImageUnits(\Imagick::RESOLUTION_PIXELSPERINCH);
-	                $im->trimImage(20000);
-	                $im->resizeImage(200, 0, \Imagick::FILTER_LANCZOS, 1);
-	                $raw_data = $im->getImageBlob();
-	                $im->writeImage($this->getSettings()->pathWall . '/' .  $event->element->slug .  '.png');
-					$im->clear();
-					$im->destroy();
-
-                	// Generate PDP
-	                $im = new \Imagick();
-	                $im->setResolution($res, $res);
-	                $im->readImageBlob($event->element->productSvg);
-	                $im->setImageFormat("png");
-	                $im->setImageUnits(\Imagick::RESOLUTION_PIXELSPERINCH);
-	                $im->trimImage(20000);
-	                $im->resizeImage(400, 0, \Imagick::FILTER_LANCZOS, 1);
-	                $raw_data = $im->getImageBlob();
-	                $im->writeImage($this->getSettings()->pathPdp . '/' .  $event->element->slug .  '.png');
-					$im->clear();
-					$im->destroy();
-
-                	// Generate PDP
-	                $im = new \Imagick();
-	                $im->setResolution($res, $res);
-	                $im->readImageBlob($event->element->productSvg);
-	                $im->setImageFormat("png");
-	                $im->setImageUnits(\Imagick::RESOLUTION_PIXELSPERINCH);
-	                $im->trimImage(20000);
-	                $im->resizeImage(100, 0, \Imagick::FILTER_LANCZOS, 1);
-	                $raw_data = $im->getImageBlob();
-	                $im->writeImage($this->getSettings()->pathCart . '/' .  $event->element->slug .  '.png');
-					$im->clear();
-					$im->destroy();
-                }
+		                $im->writeImage($path[PATH_PATH] . '/' .  $event->element->slug .  '.' . $path[PATH_FORMAT]);
+						$im->clear();
+						$im->destroy();
+                	}
+				}
             }
         );
 
