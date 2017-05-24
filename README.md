@@ -34,6 +34,10 @@ You don't need to do anything.
 
 Nothing yet, I am sure I will come up with stuff once I get more into using it.
 
+## Requirements
+
+This requires [Imagick](http://php.net/manual/en/class.imagick.php) to work
+
 * Release it
 
 Brought to you by [Trevor Orr](http://www.fractorr.com)
