@@ -24,6 +24,8 @@ Converts SVG Data stored in a section field into various file formats.
 
 Configure the paths, format and sizes and then when an entry is saved and has data in the specified field it will automatically create the images you specified in the plugin settings.
 
+Paths can be both web accessible and non web accessible, you decide.
+
 ## Using Svg
 
 You don't need to do anything.
