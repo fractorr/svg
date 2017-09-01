@@ -64,10 +64,11 @@
 	    		info: "Output Format (pdf, png, jpg, etc)",
 	    		type: "select",
 	    		options: [
-	    			{label: 'PNG', value: 'png'},
-	    			{label: 'PDF', value: 'pdf'}, 
-	    			{label: 'JPG', value: 'jpg'},
-	    			{label: 'GIF', value: 'gif'},
+	    			{label: 'PNG',   value: 'png'},
+	    			{label: 'PNG32', value: 'png32'},
+	    			{label: 'PDF',   value: 'pdf'}, 
+	    			{label: 'JPG',   value: 'jpg'},
+	    			{label: 'GIF',   value: 'gif'},
 	    		]
 	    	},
 	    	
@@ -87,6 +88,16 @@
 	    		heading: "Height",
 	    		info: "Width to resize to (0 to resize by Width)<br><br>Set Width and Height to 0 to convert with no resize",
 	    		type: "singleline",
+	    	},
+	    	
+	    	{
+	    		heading: "Enabled",
+	    		info: "If checked, run this conversion when an entry is saved",
+	    		type: "select",
+	    		options: [
+	    			{label: 'Yes', value: '1'},
+	    			{label: 'No', value: '0'}, 
+	    		]
 	    	},
 	    	
 	    ]

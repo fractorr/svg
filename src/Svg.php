@@ -22,6 +22,7 @@ use craft\events\PluginEvent;
 use craft\base\Element;
 use craft\services\Elements;
 use craft\events\ElementEvent;
+use craft\elements\Entry;
 
 //use craft\base\Section;
 //use craft\services\Sections;
@@ -58,7 +59,9 @@ class Svg extends Plugin
      * @var Svg
      */
     public static $plugin;
-
+	public $savedEntry = null;
+	
+	
     // Public Methods
     // =========================================================================
 
@@ -77,7 +80,7 @@ class Svg extends Plugin
     {
         parent::init();
         self::$plugin = $this;
-
+		
         // Do something after we're installed
         Event::on(
             Plugins::className(),
@@ -89,6 +92,23 @@ class Svg extends Plugin
             }
         );
 
+		Event::on(
+			Elements::class, 
+			Elements::EVENT_BEFORE_SAVE_ELEMENT, 
+            function (ElementEvent $event) {
+            	if (!$this->savedEntry) {
+					$this->savedEntry = Entry::find()->slug($event->element->slug)->one();
+					
+					/*
+	            	echo "<pre>";
+	            	echo "EVENT_BEFORE_SAVE_ELEMENT\n";
+	            	print_r($this->savedEntry['productSvg']);
+	            	echo "</pre>";
+	            	*/
+               	}
+            }
+		);
+		
 		Event::on(
 			Elements::class, 
 			Elements::EVENT_AFTER_SAVE_ELEMENT, 
@@ -105,32 +125,64 @@ class Svg extends Plugin
             	
                 if ($entryType == $this->getSettings()->entryTypeHandle)
                 {
-	                define("PATH_LABEL", 	0);
-	                define("PATH_PATH", 	1);
-	                define("PATH_RES", 		2);
-	                define("PATH_FORMAT", 	3);
-	                define("PATH_FIELD", 	4);
-	                define("PATH_WIDTH", 	5);
-	                define("PATH_HEIGHT", 	6);
-	                
                 	$pathFiles = $this->getSettings()->pathFiles;
+	                
+	                /*
+	            	echo "<pre>";
+	            	print_r($pathFiles);
+	            	echo "</pre>";
+	            	die();
+	            	
+	            	echo "<pre>";
+	            	print_r($event->element);
+	            	echo "</pre>";
+	            	die();
+	            	*/
+
+	            	
                 	foreach ($pathFiles as $path)
 					{
-						if ($event->element[$path[PATH_FIELD]] != "")
+						/*
+		            	echo "<hr>";
+		            	echo "<pre>";
+		            	echo "EVENT_AFTER_SAVE_ELEMENT\n";
+		            	print_r($event->element[$path[4]]);
+		            	echo "<hr>";
+		            	echo "<hr>";
+		            	print_r($this->savedEntry[$path[4]]);
+		            	echo "</pre>";
+		            	die();
+						*/
+
+						if ($event->element[$path[4]] != "" && (int)$path[7] === 1 && strcmp($event->element[$path[4]], $this->savedEntry[$path[4]]) !== 0 )
 						{
-			                $im = new \Imagick();
+							/*
+			                define("PATH_LABEL", 	0);
+			                define("PATH_PATH", 	1);
+			                define("PATH_RES", 		2);
+			                define("PATH_FORMAT", 	3);
+			                define("PATH_FIELD", 	4);
+			                define("PATH_WIDTH", 	5);
+			                define("PATH_HEIGHT", 	6);
+			                define("PATH_ENABLED", 	7);
+							*/
 							
-			                $im->setResolution($path[PATH_RES], $path[PATH_RES]);
-			                $im->readImageBlob($event->element[$path[PATH_FIELD]]);
+			                $im = new \Imagick();
+			                $tp = new \ImagickPixel('transparent');
+			                
+							$im->setBackgroundColor($tp);
+			                $im->setResolution($path[2], $path[2]);
+			                $im->readImageBlob($event->element[$path[4]]);
 			                $im->trimImage(20000);
 			                
-			                if ($path[PATH_WIDTH] != 0 || $path[PATH_HEIGHT] != 0) 
+			                if ($path[5] != 0 || $path[6] != 0) 
 			                {
-								$im->resizeImage($path[PATH_WIDTH], $path[PATH_HEIGHT], \Imagick::FILTER_LANCZOS, 1);
+								$im->resizeImage($path[5], $path[6], \Imagick::FILTER_LANCZOS, 1);
 			                }
 			                
-			                $im->setImageFormat($path[PATH_FORMAT]);
-			                if ($path[PATH_FORMAT] == "pdf") 
+			                $im->setImageFormat($path[3]);
+
+			                if ($path[3] == "pdf") 
 			                {
 				                $im->setPage($im->getImageWidth(), $im->getImageHeight(), 0, 0);
 			                }
@@ -138,12 +190,16 @@ class Svg extends Plugin
 			                $im->setImageUnits(\Imagick::RESOLUTION_PIXELSPERINCH);
 			                $raw_data = $im->getImageBlob();
 			                
-			                if (!file_exists($path[PATH_PATH])) 
+			                if (!file_exists($path[1])) 
 			                {
-								mkdir($path[PATH_PATH], 0777, true);
+								mkdir($path[1], 0777, true);
 							}
 
-			                $im->writeImage($path[PATH_PATH] . '/' .  $event->element->slug .  '.' . $path[PATH_FORMAT]);
+							if ($path[3] == "png32") {
+								$path[3] = "png";
+							}
+
+			                $im->writeImage($path[1] . '/' .  $event->element->slug .  '.' . $path[3]);
 							$im->clear();
 							$im->destroy();
 						}
